@@ -41,11 +41,8 @@ const keyboard = {
     ],
     resize_keyboard: true 
 }
-function previous(id){
-    if (count===0) return
-    count--
-    return bot.sendMessage(id,'Назад')
-}
+let count = 0;
+
 bot.setMyCommands([
     {command: '/start', description: 'Начать работу'},     
 ])
