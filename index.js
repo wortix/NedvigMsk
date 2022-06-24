@@ -35,7 +35,6 @@ let flats = [
   
   ];
 const bot = new TelegramApi(token,{polling:true})
-let count = 0;
 const keyboard = {
     keyboard: [
         ["Перезапустить бота"],
@@ -203,48 +202,48 @@ bot.on('callback_query', async msg=>{
         },60000)
      }
 })
+
+
+
 bot.on('message', async msg=>{
     const text = msg.text;
     const id = msg.chat.id;
-   
     if (text === `/start` || text === `Перезапустить бота`) {
         count=1;
-        await bot.sendMessage(id,`Для начала ответьте на несколько вопросов`,{
-            reply_markup:keyboard,
-           
-        });
-       await bot.sendMessage(id,`Как вас зовут ?`); 
+        await bot.sendMessage(id,`Для начала ответьте на несколько вопросов`);
+        await bot.sendMessage(id,`Как вас зовут ?`);
     } else {
         switch(count){
                 case 1 :
                     count++
                     await bot.sendMessage(id,`Сколько вам лет ? `);
-                    break;
+                    return; 
                 case 2 :
                     count++
                     await bot.sendMessage(id,`Работаете или учитесь ?`);
-                    break;
+                    return; 
                 case 3 :
                     count++
                     await bot.sendMessage(id,`Сколько людей будет проживать ?`);
-                    break;
+                    return; 
                 case 4 :
                     count++
                     await bot.sendMessage(id,`Есть ли у вас домашние животные ?`);
-                    break;
+                    return; 
                  case 5 :
                     count++
                     await bot.sendMessage(id,`Укажите минимальную сумму арендной платы`);
-                    break;
+                    return; 
                  case 6 :
                     count++
                     await bot.sendMessage(id,`Укажите максимальную сумму арендной платы`);
-                    break;
+                    return; 
                  case 7 :
                     count++
                     await bot.sendMessage(id,`Укажите ваш номер телефона +7`); 
-                    break;
+                    return; 
                 case 8:
+                    count = 1;
                     await setTimeout(()=>{
                         bot.sendMessage(id,`Отлично теперь мы можем начать подбор недвижимости для вас`);
                     },1000);
@@ -257,11 +256,9 @@ bot.on('message', async msg=>{
                         }),
                     });
                    },1200)
-                        break;
+                    return
                 default: await bot.sendMessage(id,"Произошла ошибка, пожалуйста, перезапустите бота и начните поиск заново");
             }  
-    }
-    
-    
+    }   
 })
 
