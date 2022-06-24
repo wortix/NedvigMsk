@@ -1,7 +1,7 @@
 const TelegramApi = require('node-telegram-bot-api');
 const fs = require('fs');
 const { dirname } = require('path');
-const token = '5457140174:AAF_-TJVUxJHQfTR1qOE1TN_ze6DTwHre_Q';
+const token = '5550511372:AAExmmhr9P2T2RG0pcipBEEkNBMTm7RtQoY';
 let flats = [
     {  text:`
 Адрес: Дмитровское шоссе 43к1
@@ -208,7 +208,7 @@ bot.on('message', async msg=>{
     const id = msg.chat.id;
    
     if (text === `/start` || text === `Перезапустить бота`) {
-        count++;
+        count=1;
         await bot.sendMessage(id,`Для начала ответьте на несколько вопросов`,{
             reply_markup:keyboard,
            
