@@ -164,8 +164,31 @@ bot.on('callback_query', async msg=>{
     const id = msg.message.chat.id;
     const data = msg.data;
     if (data === 'third_flat'){  
-        await bot.sendMessage(id, `Вы исчерпали свой лимит бесплатных объявлений`);
+        await bot.sendMessage(id, `     🚫ВНИМАНИЕ 🚫
+
+Вы исчерпали лимит бесплатных объявлений 👨‍💻
+
+Вы можете приобрести полную базу недвижимости у нашего «БОТА»👨‍💻
+
+Более 5️⃣0️⃣0️⃣ актуальных вариантов уже ждут именно тебя 🏬`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: 'Оплатить \u{1F4B3}', callback_data: 'payment',url:`https://oplata.qiwi.com/form?invoiceUid=e97958d7-a624-4e16-a331-289d81af3b94`}],
+                    [{text: 'Я оплатил \u{2705}', callback_data: 'payment_finish'}],
+                ]
+            }),
+        });
        
+     }
+})
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    if (data === 'payment_finish'){  
+        await bot.sendMessage(id,`Спасибо за оплату! Мы проверяем ваш платеж. Полный доступ к базе данных будет получен после подтверждения платежа`);
+        setTimeout(()=>{
+            bot.sendMessage(id,`К сожалению, платеж не был получен`);
+        },60000)
      }
 })
 bot.on('message', async msg=>{
