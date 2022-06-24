@@ -1,7 +1,7 @@
 const TelegramApi = require('node-telegram-bot-api');
 const fs = require('fs');
 const { dirname } = require('path');
-const token = '5550511372:AAExmmhr9P2T2RG0pcipBEEkNBMTm7RtQoY';
+const token = '5457140174:AAF_-TJVUxJHQfTR1qOE1TN_ze6DTwHre_Q';
 let flats = [
     {  text:`
 Адрес: Дмитровское шоссе 43к1
