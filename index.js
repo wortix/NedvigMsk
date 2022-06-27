@@ -1,7 +1,7 @@
 const TelegramApi = require('node-telegram-bot-api');
 const fs = require('fs');
 const { dirname } = require('path');
-const token = '5457140174:AAF_-TJVUxJHQfTR1qOE1TN_ze6DTwHre_Q';
+const token = '5550511372:AAExmmhr9P2T2RG0pcipBEEkNBMTm7RtQoY';
 let flats = [
     {  text:`
 Адрес: Дмитровское шоссе 43к1
@@ -82,7 +82,23 @@ bot.on('callback_query', async msg => {
 bot.on('callback_query', async msg=>{
     const id = msg.message.chat.id;
     const data = msg.data;
-    if (data === 'room'){
+    if (data === 'room'){  
+        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/money.jpg'));  
+        await bot.sendMessage(id,`Укажите желаемую сумму арендной платы`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: '5000-10000', callback_data: 'money'},{text: '10000-15000', callback_data: 'money'},{text: '15000-20000', callback_data: 'money'}],
+                    [{text: '20000-25000', callback_data: 'money'},{text: '25000-30000', callback_data: 'money'},{text: '30000-35000', callback_data: 'money'}],
+                    [{text: '35000-40000', callback_data: 'money'},{text: '40000-50000', callback_data: 'money'},{text: '>50000', callback_data: 'money'}],
+                ]
+            }),
+        }); 
+     }
+})
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    if (data === 'money'){
         await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_3.jpg'));
         await bot.sendMessage(id,`Насколько важна близость метро ?`,{
             reply_markup:JSON.stringify({
@@ -199,63 +215,142 @@ bot.on('callback_query', async msg=>{
         },60000)
      }
 })
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    
+    if (data === 'age'){
+        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/family.jpg'));  
+        await bot.sendMessage(id,`Сколько людей будет проживать ?`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: '1', callback_data: 'count_people'},{text: '2', callback_data: 'count_people'},{text: '3', callback_data: 'count_people'}],
+                    [{text: '>3 ', callback_data: 'count_people'}],
+                ]
+            }),
+        }); 
+     }
+})
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    if (data === 'count_people'){  
+        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/pets.jpg'));  
+        await bot.sendMessage(id,`Есть ли у вас домашние животные ?`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: 'Да', callback_data: 'pets'}],
+                    [{text: 'Нет', callback_data: 'pets'}],
+                ]
+            }),
+        }); 
+     }
+})
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    if (data === 'pets'){  
+        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/job.jpg'));  
+        await bot.sendMessage(id,`Есть ли у вас работа ?`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: 'Да', callback_data: 'job'}],
+                    [{text: 'Нет', callback_data: 'job'}],
+                    [{text: 'Не хочу отвечать', callback_data: 'job'}],
+                ]
+            }),
+        }); 
+     }
+})
 
+bot.on('callback_query', async msg=>{
+    const id = msg.message.chat.id;
+    const data = msg.data;
+    if (data === 'job'){  
+            bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: 'Начать работу', callback_data: 'search'}]
+                ]
+            }),
+        });
+     }
+})
 
 
 bot.on('message', async msg=>{
     const text = msg.text;
     const id = msg.chat.id;
     if (text === `/start` || text === `Перезапустить бота`) {
-        count=1;
-        await bot.sendMessage(id,`Для начала ответьте на несколько вопросов`);
-        await bot.sendMessage(id,`Как вас зовут ?`);
-    } else {
-        switch(count){
-                case 1 :
-                    count++
-                    await bot.sendMessage(id,`Сколько вам лет ? `);
-                    return; 
-                case 2 :
-                    count++
-                    await bot.sendMessage(id,`Работаете или учитесь ?`);
-                    return; 
-                case 3 :
-                    count++
-                    await bot.sendMessage(id,`Сколько людей будет проживать ?`);
-                    return; 
-                case 4 :
-                    count++
-                    await bot.sendMessage(id,`Есть ли у вас домашние животные ?`);
-                    return; 
-                 case 5 :
-                    count++
-                    await bot.sendMessage(id,`Укажите минимальную сумму арендной платы`);
-                    return; 
-                 case 6 :
-                    count++
-                    await bot.sendMessage(id,`Укажите максимальную сумму арендной платы`);
-                    return; 
-                 case 7 :
-                    count++
-                    await bot.sendMessage(id,`Укажите ваш номер телефона +7`); 
-                    return; 
-                case 8:
-                    count = 1;
-                    await setTimeout(()=>{
-                        bot.sendMessage(id,`Отлично теперь мы можем начать подбор недвижимости для вас`);
-                    },1000);
-                    await setTimeout(()=>{
-                        bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
-                        reply_markup:JSON.stringify({
-                            inline_keyboard:[
-                                [{text: 'Начать работу', callback_data: 'search'}]
-                            ]
-                        }),
-                    });
-                   },1200)
-                    return
-                default: await bot.sendMessage(id,"Произошла ошибка, пожалуйста, перезапустите бота и начните поиск заново");
-            }  
-    }   
+        await bot.sendMessage(id,`Для начала ответьте на несколько вопросов. 
+Будьте честными, арендодатели иногда выставляют дополнительные требования. 
+Ответы на эти вопросы помогут подобрать вам подходящий вариант.`);
+    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/age.png'));
+    await bot.sendMessage(id,`Сколько вам лет ?`,{
+    reply_markup:JSON.stringify({
+        inline_keyboard:[
+            [{text: '18-25', callback_data: 'age'},{text: '26-30', callback_data: 'age'},{text: '31-35', callback_data: 'age'}],
+            [{text: '36-40', callback_data: 'age'},{text: '41-49', callback_data: 'age'},{text: '50 >', callback_data: 'age'}],
+        ]
+    }),
+});
+} 
+    //else {
+    //     switch(count){
+    //             case 1 :
+    //                 count++
+    //                 await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/phone.jpg'));
+    //                 await bot.sendMessage(id,`Укажите ваш номер телефона +7`); 
+    //                 return; 
+    //             case 2 :
+    //                 await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/age.png'));
+    //                 count++
+    //                 await bot.sendMessage(id,`Сколько вам лет ?`,{
+    //                     reply_markup:JSON.stringify({
+    //                         inline_keyboard:[
+    //                             [{text: '18-25', callback_data: 'age'},{text: '26-30', callback_data: 'age'},{text: '31-35', callback_data: 'age'}],
+    //                             [{text: '36-40', callback_data: 'age'},{text: '41-49', callback_data: 'age'},{text: '50 >', callback_data: 'age'}],
+    //                         ]
+    //                     }),
+    //                 });
+    //                 return; 
+    //             // case 3 :
+    //             //     count++
+    //             //     await bot.sendMessage(id,`Сколько людей будет проживать ?`);
+    //             //     return; 
+    //             // case 4 :
+    //             //     count++
+    //             //     await bot.sendMessage(id,`Есть ли у вас домашние животные ?`);
+    //             //     return; 
+    //             //  case 5 :
+    //             //     count++
+    //             //     await bot.sendMessage(id,`Укажите минимальную сумму арендной платы`);
+    //             //     return; 
+    //             //  case 6 :
+    //             //     count++
+    //             //     await bot.sendMessage(id,`Укажите максимальную сумму арендной платы`);
+    //             //     return; 
+    //             //  case 7 :
+    //             //     count++
+    //             //     await bot.sendMessage(id,`Работаете или учитесь ?`);
+    //             //     return; 
+    //             // case 8:
+    //             //     count = 1;
+    //             //     await setTimeout(()=>{
+    //             //         bot.sendMessage(id,`Отлично теперь мы можем начать подбор недвижимости для вас`);
+    //             //     },1000);
+    //             //     await setTimeout(()=>{
+    //             //         bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
+    //             //         reply_markup:JSON.stringify({
+    //             //             inline_keyboard:[
+    //             //                 [{text: 'Начать работу', callback_data: 'search'}]
+    //             //             ]
+    //             //         }),
+    //             //     });
+    //             //    },1200)
+    //             //     return
+    //             default: await bot.sendMessage(id,"Произошла ошибка, пожалуйста, перезапустите бота и начните поиск заново");
+    //         }  
+    // }   
 })
 
