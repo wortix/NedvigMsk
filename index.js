@@ -46,30 +46,73 @@ let count = 0;
 bot.setMyCommands([
     {command: '/start', description: 'Начать работу'},     
 ])
+
 bot.on('callback_query', async msg => {
     const id = msg.message.chat.id;
     const data = msg.data;
-    if (data==='search'){
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_1.jpg'));
-       await bot.sendMessage(id,`Где присматриваете квартиру ?`,{
-        reply_markup:JSON.stringify({
-            inline_keyboard:[
-                [{text: 'Центральный административный округ', callback_data: 'place'}],
-                [{text: 'Северный административный округ', callback_data: 'place'}],
-                [{text: 'Северо-восточный административный округ', callback_data: 'place'}],
-                [{text: 'Восточный административный округ', callback_data: 'place'}],
-                [{text: 'Юго-восточный административный округ', callback_data: 'place'}],
-            ]
-        }),
-    });
-    }   
-});
-bot.on('callback_query', async msg => {
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data==='place'){
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_2.jpeg'));
-       await bot.sendMessage(id,`Сколько комнат должно быть в квартире ?`,{
+    switch (data) {
+        case 'age' :
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/family.jpg'));  
+            await bot.sendMessage(id,`Сколько людей будет проживать ?`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: '1', callback_data: 'count_people'},{text: '2', callback_data: 'count_people'},{text: '3', callback_data: 'count_people'}],
+                    [{text: '>3 ', callback_data: 'count_people'}],
+                ]
+            }),
+        });
+        break;
+        case 'count_people' :
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/pets.jpg'));  
+            await bot.sendMessage(id,`Есть ли у вас домашние животные ?`,{
+            reply_markup:JSON.stringify({
+                inline_keyboard:[
+                    [{text: 'Да', callback_data: 'pets'}],
+                    [{text: 'Нет', callback_data: 'pets'}],
+                ]
+            }),
+        });
+        
+        break;
+        case 'pets':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/job.jpg'));  
+            await bot.sendMessage(id,`Есть ли у вас работа ?`,{
+                reply_markup:JSON.stringify({
+                    inline_keyboard:[
+                        [{text: 'Да', callback_data: 'job'}],
+                        [{text: 'Нет', callback_data: 'job'}],
+                        [{text: 'Не хочу отвечать', callback_data: 'job'}],
+                    ]
+                }),
+            }); 
+            
+            break;
+        case 'job':
+            bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
+                reply_markup:JSON.stringify({
+                    inline_keyboard:[
+                        [{text: 'Начать работу', callback_data: 'search'}]
+                    ]
+                }),
+            });
+            break;
+        case 'search':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_1.jpg'));
+            await bot.sendMessage(id,`Где присматриваете квартиру ?`,{
+             reply_markup:JSON.stringify({
+                 inline_keyboard:[
+                     [{text: 'Центральный административный округ', callback_data: 'place'}],
+                     [{text: 'Северный административный округ', callback_data: 'place'}],
+                     [{text: 'Северо-восточный административный округ', callback_data: 'place'}],
+                     [{text: 'Восточный административный округ', callback_data: 'place'}],
+                     [{text: 'Юго-восточный административный округ', callback_data: 'place'}],
+                 ]
+             }),
+         });
+         break;
+         case 'place':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_2.jpeg'));
+            await bot.sendMessage(id,`Сколько комнат должно быть в квартире ?`,{
             reply_markup:JSON.stringify({
                 inline_keyboard:[
                     [{text: 'Студия', callback_data: 'room'}],
@@ -77,30 +120,22 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
-    }   
-});
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'room'){  
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/money.jpg'));  
-        await bot.sendMessage(id,`Укажите желаемую сумму арендной платы`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: '5000-10000', callback_data: 'money'},{text: '10000-15000', callback_data: 'money'},{text: '15000-20000', callback_data: 'money'}],
-                    [{text: '20000-25000', callback_data: 'money'},{text: '25000-30000', callback_data: 'money'},{text: '30000-35000', callback_data: 'money'}],
-                    [{text: '35000-40000', callback_data: 'money'},{text: '40000-50000', callback_data: 'money'},{text: '>50000', callback_data: 'money'}],
-                ]
-            }),
-        }); 
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'money'){
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_3.jpg'));
-        await bot.sendMessage(id,`Насколько важна близость метро ?`,{
+        break;
+        case 'room' :
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/money.jpg'));  
+            await bot.sendMessage(id,`Укажите желаемую сумму арендной платы`,{
+                reply_markup:JSON.stringify({
+                    inline_keyboard:[
+                        [{text: '5000-10000', callback_data: 'money'},{text: '10000-15000', callback_data: 'money'},{text: '15000-20000', callback_data: 'money'}],
+                        [{text: '20000-25000', callback_data: 'money'},{text: '25000-30000', callback_data: 'money'},{text: '30000-35000', callback_data: 'money'}],
+                        [{text: '35000-40000', callback_data: 'money'},{text: '40000-50000', callback_data: 'money'},{text: '>50000', callback_data: 'money'}],
+                    ]
+                }),
+            });
+        break;
+        case 'money':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_3.jpg'));
+            await bot.sendMessage(id,`Насколько важна близость метро ?`,{
             reply_markup:JSON.stringify({
                 inline_keyboard:[
                     [{text: 'Хочу ходить пешком', callback_data: 'metro'}],
@@ -109,15 +144,10 @@ bot.on('callback_query', async msg=>{
                 ]
             }),
         });
-       
-    }
-}) 
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'metro'){
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_4.webp'));
-        await bot.sendMessage(id,`Хотите заехать сразу или готовы подождать ?`,{
+        break;
+        case 'metro':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_4.webp'));
+            await bot.sendMessage(id,`Хотите заехать сразу или готовы подождать ?`,{
             reply_markup:JSON.stringify({
                 inline_keyboard:[
                     [{text: 'Сразу', callback_data: 'waiting'}],
@@ -126,69 +156,52 @@ bot.on('callback_query', async msg=>{
                 ]
             }),
         });
-       
-    }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'waiting'){
-       await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_2.jpg'));
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_1.jpg')); 
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_3.jpg')); 
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_4.jpg')); 
-       await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_5.jpg'));  
-       await bot.sendMessage(id,`${flats[0].text}`,{
-           reply_markup:JSON.stringify({
+        break;
+        case 'waiting' :
+            await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_2.jpg'));
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_1.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_3.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_4.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_5.jpg'));  
+            await bot.sendMessage(id,`${flats[0].text}`,{
+            reply_markup:JSON.stringify({
                inline_keyboard:[
                    [{text: 'Загрузить ещё', callback_data: 'first_flat'}],
                ]
            }),
-       });
-    }     
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'first_flat'){  
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_1.jpg'));
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_2.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_3.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_4.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_5.jpg'));  
-        await bot.sendMessage(id,`${flats[1].text}`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
-                ]
-            }),
-        });
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'second_flat'){  
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_1.jpg'));
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_2.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_3.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_4.jpg')); 
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_5.jpg'));  
-        await bot.sendMessage(id,`${flats[2].text}`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
-                ]
-            }),
-        });
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'third_flat'){  
-        await bot.sendMessage(id, `     🚫ВНИМАНИЕ 🚫
+            });
+        break;
+        case 'first_flat':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_1.jpg'));
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_2.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_3.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_4.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_5.jpg'));  
+            await bot.sendMessage(id,`${flats[1].text}`,{
+                reply_markup:JSON.stringify({
+                    inline_keyboard:[
+                        [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                    ]
+                }),
+            });
+        break;
+        case 'second_flat':
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_1.jpg'));
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_2.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_3.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_4.jpg')); 
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_5.jpg'));  
+            await bot.sendMessage(id,`${flats[2].text}`,{
+                reply_markup:JSON.stringify({
+                    inline_keyboard:[
+                        [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                    ]
+                }),
+            });
+        break;
+        case 'third_flat':
+            await bot.sendMessage(id, `     🚫ВНИМАНИЕ 🚫
 
 Вы исчерпали лимит бесплатных объявлений 👨‍💻
 
@@ -202,87 +215,34 @@ bot.on('callback_query', async msg=>{
                 ]
             }),
         });
-       
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'payment_finish'){  
+        break;
+        case 'payment_finish':
         await bot.sendMessage(id,`Спасибо за оплату! Мы проверяем ваш платеж. Полный доступ к базе данных будет получен после подтверждения платежа`);
         setTimeout(()=>{
             bot.sendMessage(id,`К сожалению, платеж не был получен`);
         },60000)
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
+        break;
+    }
     
-    if (data === 'age'){
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/family.jpg'));  
-        await bot.sendMessage(id,`Сколько людей будет проживать ?`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: '1', callback_data: 'count_people'},{text: '2', callback_data: 'count_people'},{text: '3', callback_data: 'count_people'}],
-                    [{text: '>3 ', callback_data: 'count_people'}],
-                ]
-            }),
-        }); 
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'count_people'){  
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/pets.jpg'));  
-        await bot.sendMessage(id,`Есть ли у вас домашние животные ?`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Да', callback_data: 'pets'}],
-                    [{text: 'Нет', callback_data: 'pets'}],
-                ]
-            }),
-        }); 
-     }
-})
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'pets'){  
-        await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/job.jpg'));  
-        await bot.sendMessage(id,`Есть ли у вас работа ?`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Да', callback_data: 'job'}],
-                    [{text: 'Нет', callback_data: 'job'}],
-                    [{text: 'Не хочу отвечать', callback_data: 'job'}],
-                ]
-            }),
-        }); 
-     }
-})
+       
+     
+});
 
-bot.on('callback_query', async msg=>{
-    const id = msg.message.chat.id;
-    const data = msg.data;
-    if (data === 'job'){  
-            bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Начать работу', callback_data: 'search'}]
-                ]
-            }),
-        });
-     }
-})
+
+
+
+
+
+
+
+
 
 
 bot.on('message', async msg=>{
     const text = msg.text;
     const id = msg.chat.id;
     if (text === `/start` || text === `Перезапустить бота`) {
-        await bot.sendMessage(id,`Для начала ответьте на несколько вопросов. 
+    await bot.sendMessage(id,`Для начала ответьте на несколько вопросов. 
 Будьте честными, арендодатели иногда выставляют дополнительные требования. 
 Ответы на эти вопросы помогут подобрать вам подходящий вариант.`);
     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/age.png'));
