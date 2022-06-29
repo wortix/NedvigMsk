@@ -2,6 +2,7 @@ const TelegramApi = require('node-telegram-bot-api');
 const fs = require('fs');
 const { dirname } = require('path');
 const token = '5457140174:AAF_-TJVUxJHQfTR1qOE1TN_ze6DTwHre_Q';
+
 let flats = [
     {  text:`
 Адрес: Дмитровское шоссе 43к1
@@ -48,8 +49,8 @@ bot.setMyCommands([
 ])
 
 bot.on('callback_query', async msg => {
-    const id = msg.message.chat.id;
-    const data = msg.data;
+    let id = msg.message.chat.id;
+    let data = msg.data;
     switch (data) {
         case 'age' :
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/family.jpg'));  
@@ -61,6 +62,8 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
+        data = null;
+        id = null;
         break;
         case 'count_people' :
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/pets.jpg'));  
@@ -72,7 +75,8 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
-        
+        data = null;
+        id = null;
         break;
         case 'pets':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/job.jpg'));  
@@ -85,7 +89,8 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
             }); 
-            
+            data = null;
+            id = null;
             break;
         case 'job':
             bot.sendMessage(id,`Для начала поиска недвижимости нажмите на кнопку`,{
@@ -95,6 +100,8 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
             });
+            data = null;
+            id = null;
             break;
         case 'search':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_1.jpg'));
@@ -105,10 +112,18 @@ bot.on('callback_query', async msg => {
                      [{text: 'Северный административный округ', callback_data: 'place'}],
                      [{text: 'Северо-восточный административный округ', callback_data: 'place'}],
                      [{text: 'Восточный административный округ', callback_data: 'place'}],
-                     [{text: 'Юго-восточный административный округ', callback_data: 'place'}],
-                 ]
+                     [{text: 'Южный административный округ', callback_data: 'place'}],
+                     [{text: 'Юго-западный административный округ', callback_data: 'place'}],
+                     [{text: 'Западный административный округ', callback_data: 'place'}],
+                     [{text: 'Северо-Западный административный округ', callback_data: 'place'}],
+                     [{text: 'Зеленоградский административный округ', callback_data: 'place'}],
+                     [{text: 'Новомосковский административный округ', callback_data: 'place'}],
+                     [{text: 'Троицкий административный округ', callback_data: 'place'}],
+                    ]
              }),
          });
+         data = null;
+         id = null;
          break;
          case 'place':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_2.jpeg'));
@@ -120,6 +135,8 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
+        data = null;
+        id = null;
         break;
         case 'room' :
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/money.jpg'));  
@@ -132,6 +149,8 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
             });
+        data = null;
+        id = null;    
         break;
         case 'money':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_3.jpg'));
@@ -144,6 +163,8 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
+        data = null;
+        id = null;
         break;
         case 'metro':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/img_4.webp'));
@@ -156,6 +177,8 @@ bot.on('callback_query', async msg => {
                 ]
             }),
         });
+        data = null;
+        id = null;
         break;
         case 'waiting' :
             await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
@@ -171,6 +194,8 @@ bot.on('callback_query', async msg => {
                ]
            }),
             });
+        data = null;
+        id = null;
         break;
         case 'first_flat':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_1.jpg'));
@@ -185,6 +210,8 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
             });
+        data = null;
+        id = null;
         break;
         case 'second_flat':
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_1.jpg'));
@@ -199,28 +226,35 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
             });
+        data = null;
+        id = null;
         break;
         case 'third_flat':
             await bot.sendMessage(id, `     🚫ВНИМАНИЕ 🚫
 
 Вы исчерпали лимит бесплатных объявлений 👨‍💻
 
-Вы можете приобрести полную базу недвижимости у нашего «БОТА»👨‍💻
+Вы можете приобрести подписку на полную базу недвижимости у нашего «БОТА»👨‍💻
 
 Более 5️⃣0️⃣0️⃣ актуальных вариантов уже ждут именно тебя 🏬`,{
             reply_markup:JSON.stringify({
                 inline_keyboard:[
-                    [{text: 'Оплатить \u{1F4B3}', callback_data: 'payment',url:`https://oplata.qiwi.com/form?invoiceUid=e97958d7-a624-4e16-a331-289d81af3b94`}],
+                    [{text: 'Подписка на 3 дня - 599 руб \u{1F4B3}', callback_data: 'payment',url:`https://oplata.qiwi.com/form?invoiceUid=5b316932-ded8-4c4a-b609-cca15747d308`}],
+                    [{text: 'Подписка на 1 месяц 1999 руб \u{1F4B3}', callback_data: 'payment',url:`https://oplata.qiwi.com/form?invoiceUid=5e5b928e-625a-4c88-bba6-dbae5b9a3d5a`}],
                     [{text: 'Я оплатил \u{2705}', callback_data: 'payment_finish'}],
                 ]
             }),
         });
+        data = null;
+        id = null;
         break;
         case 'payment_finish':
         await bot.sendMessage(id,`Спасибо за оплату! Мы проверяем ваш платеж. Полный доступ к базе данных будет получен после подтверждения платежа`);
         setTimeout(()=>{
             bot.sendMessage(id,`К сожалению, платеж не был получен`);
-        },60000)
+        },120000);
+        data = null;
+        id = null;
         break;
     }
     
