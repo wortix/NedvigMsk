@@ -101,6 +101,75 @@ Peдкo зaxoжy в BK, мoгy нe yвидeть, пpocьбa пиcaть тoльк
       }
   
   ];
+  let ekaterinburg = [
+    {  text:`
+Цена: 8500₽ + коммунальные услуги 
+
+Сдам 2-комнатную квартиру на длительный срок. Можно с детьми. Квартира очень хорошая, cветлая, чистая, теплая, в отличном состоянии, с мебелью и всей бытовой техникой. Комнаты раздельные, окна выходят на 2 стороны, кухня 14 кв.м, застекленная лоджия, большая прихожая.
+
+8(902)803-77-75 Кирилл
+
+`,
+  }, 
+      {
+          text: `
+Адрес: ул. земляной вал 39/1
+Цена: 9000₽ + сч.
+
+Сдам КВАРТИРУ на 3-м этаже в 5-ти этажном монолитнокирпичном доме, общая площадь 31 кв. Санузел в отличном состоянии, кафель, зеркало, Ванна, комната чистая, пластиковое окно, кухонный гарнитур, ЖК телевизор, стиральная машинка автомат, печка, диван, микроволновая печь, холодильник.  Встроенный шкаф  и стенка с полками. Есть все необходимое для комфортного проживания.
+
+Артем 8(902)_801_66_65
+`
+      },
+      {
+          text: `
+Цена: 35000. + ку
+
+Новые однокомнатные апартаменты 39 кВ с лоджией от СОБСТВЕННИКА. Пулковское шоссе д.14 ст6 , 10 мин. м. ЗВЕЗДНАЯ. Новая мебель, техника , есть все необходимое. Отличное Расположение -10 мин.пешком ст.м.Звездная, Аэропорт -10 мин.на машине/такси ,15 мин. «Экспофорум», исторический центр города -20 мин, выезды на КАД, ЗСД. Хорошая инфраструктура - сетевые магазины, супермаркет 24, бар, ресторан, кофейня . Территория под видеонаблюдением , есть подземный паркинг (50 ₽ 2 часа), также можно парковаться на домовой территории. 
+
+Контактный номер +79165897899`,
+      }
+  
+  ];
+  let kazan = [
+    {  text:`
+Сдам 3х комнатную светлую, уютную квартиру на улице Проспект победы     
+Цена: 11.000 ₽ + коммунальные услуги 
+
+Сдам 3х комнатную светлую, уютную квартиру. Развитая инфраструктура. Рядом имеется все самое необходимое: аптеки, магазины, тц и т.п. В квартире имеется всё необходимое для проживания. Сдам на длительный срок. Рассмотрим все варианты. 
+
+Всё подробности по телефону 89047668506 (Андрей)
+
+`,
+  }, 
+      {
+          text: `
+Адрес: ул. Родины, 24Б 
+Цена: 7500₽  в месяц.  + сч.
+
+Состояние квартиры: ремонт, чистая, окна на солнечную сторону. Мебель и техника: микроволновая печь, новые спальные места, плита, новый чайник, кухонный стол со стульями, стиральная машинка автомат, хороший холодильник, хороший шкаф для вещей.  Требования к жильцам: порядочные, платежеспособные, разрешено студентам и с животными. 
+7500 тысяч в месяц. 
+
+89872673046 (Юрий)
+
+`
+      },
+      {
+          text: `
+Цена: 14.000+ком.услуги.
+
+
+1. Авиастроительный 
+2. Челюскина 37 
+3. Шикарная ДВУХКОМНАТНАЯ квартира с современнейшим ремонтом. Есть все. 3 минуты до ТЦ «Бэхетле». 
+4. Арендная плата 14.000+ком.услуги. 
+5. На длительный срок. 
+
+По всем вопросам в лс или по телефону 89625589862 (смс,звонки,ватсап,телеграмм)
+
+`}
+  
+  ];
 const bot = new TelegramApi(token,{polling:true})
 const keyboard = {
     keyboard: [
@@ -119,7 +188,6 @@ let info = {
 bot.on('callback_query', async msg => {
     let id = msg.message.chat.id;
     let data = msg.data;
-    
     switch (data) {
         case 'age' :
             await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/interview/family.jpg'));  
@@ -180,6 +248,48 @@ bot.on('callback_query', async msg => {
                      [{text: 'Москва', callback_data: 'Moskow'}],
                      [{text: 'Санкт-Петербург', callback_data: 'Piter'}],
                      [{text: 'Новосибирск', callback_data: 'Novosibirsk'}],
+                     [{text: 'Екатеринбург', callback_data: 'Ekaterinburg'}],
+                     [{text: 'Казань', callback_data: 'Kazan'}],
+                    ]
+             }),
+         });
+         data = null;
+         id = null;
+         break;
+         case 'Kazan':
+            info.cities = 'Kazan'
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/cities/Kazan.jpg'));
+            await bot.sendMessage(id,`Где присматриваете квартиру ?`,{
+             reply_markup:JSON.stringify({
+                 inline_keyboard:[
+                     [{text: 'Академический район', callback_data: 'place'}],
+                     [{text: 'Верх-Исетский район', callback_data: 'place'}],
+                     [{text: 'Железнодорожный район', callback_data: 'place'}],
+                     [{text: 'Кировский район', callback_data: 'place'}],
+                     [{text: 'Ленинский район', callback_data: 'place'}],
+                     [{text: 'Октябрьский район', callback_data: 'place'}],
+                     [{text: 'Орджоникидзевский район', callback_data: 'place'}],
+                     [{text: 'Чкаловский район', callback_data: 'place'}],
+                    ]
+             }),
+         });
+         data = null;
+         id = null;
+         break;
+         case 'Ekaterinburg':
+            info.cities = 'Ekaterinburg'
+            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/cities/Ekaterinburg.jpg'));
+            await bot.sendMessage(id,`Где присматриваете квартиру ?`,{
+             reply_markup:JSON.stringify({
+                 inline_keyboard:[
+                     [{text: 'Академический район', callback_data: 'place'}],
+                     [{text: 'Верх-Исетский район', callback_data: 'place'}],
+                     [{text: 'Железнодорожный район', callback_data: 'place'}],
+                     [{text: 'Кировский район', callback_data: 'place'}],
+                     [{text: 'Ленинский район', callback_data: 'place'}],
+                     [{text: 'Октябрьский район', callback_data: 'place'}],
+                     [{text: 'Орджоникидзевский район', callback_data: 'place'}],
+                     [{text: 'Чкаловский район', callback_data: 'place'}],
                     ]
              }),
          });
@@ -198,7 +308,7 @@ bot.on('callback_query', async msg => {
                      [{text: 'Калининский район', callback_data: 'place'}],
                      [{text: 'Кировский  район', callback_data: 'place'}],
                      [{text: 'Ленинский район', callback_data: 'place'}],
-                     [{text: 'Октябрский район район', callback_data: 'place'}],
+                     [{text: 'Октябрский район', callback_data: 'place'}],
                      [{text: 'Советский район', callback_data: 'place'}],
                      [{text: 'Центральный район', callback_data: 'place'}]
                     ]
@@ -215,18 +325,11 @@ bot.on('callback_query', async msg => {
                  inline_keyboard:[
                      [{text: 'Адмиралтейский район', callback_data: 'place'}],
                      [{text: 'Василеостровский район', callback_data: 'place'}],
-                     [{text: 'Выборгский район', callback_data: 'place'}],
                      [{text: 'Калининский район', callback_data: 'place'}],
-                     [{text: 'Кировский  район', callback_data: 'place'}],
-                     [{text: 'Колпинский район', callback_data: 'place'}],
-                     [{text: 'Красногвардейский район', callback_data: 'place'}],
                      [{text: 'Красносельский район', callback_data: 'place'}],
                      [{text: 'Кронштадский район', callback_data: 'place'}],
-                     [{text: 'Курортный район', callback_data: 'place'}],
                      [{text: 'Московский район', callback_data: 'place'}],
                      [{text: 'Невский район', callback_data: 'place'}],
-                     [{text: 'Петроградский район', callback_data: 'place'}],
-                     [{text: 'Петродворцовый район', callback_data: 'place'}],
                      [{text: 'Приморский район', callback_data: 'place'}],
                      [{text: 'Фрунзенский район', callback_data: 'place'}],
                      [{text: 'Центральный район', callback_data: 'place'}],
@@ -316,13 +419,42 @@ bot.on('callback_query', async msg => {
         break;
         case 'waiting' :
             switch (info.cities) { 
+                case 'Kazan':
+                    data = null;
+                    await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/1/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/1/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/1/flat_3.jpg'));
+                    await bot.sendMessage(id,`${kazan[0].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'first_flat'}],
+                   ]
+               }),
+                });
+                    id = null;
+                break;
+                case 'Ekaterinburg':
+                    data = null;
+                    await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/1/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/1/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/1/flat_3.jpg'));
+                    await bot.sendMessage(id,`${ekaterinburg[0].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'first_flat'}],
+                   ]
+               }),
+                });
+                id = null;
+                break;
                 case 'Novosibirsk':
+                    data = null;
                     await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/1/flat_1.jpg'));
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/1/flat_2.jpg'));
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/1/flat_3.jpg'));
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/1/flat_4.jpg'));
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/1/flat_5.jpg')); 
                     await bot.sendMessage(id,`${novosibirsk[0].text}`,{
                 reply_markup:JSON.stringify({
                    inline_keyboard:[
@@ -330,14 +462,14 @@ bot.on('callback_query', async msg => {
                    ]
                }),
                 });
+                data = null;
+                id = null;
                 break;    
                 case 'Piter':
                     await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/1/flat_1.jpg'));
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/1/flat_2.jpg'));
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/1/flat_3.jpg'));
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/1/flat_4.jpg'));
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/1/flat_5.jpg')); 
                     await bot.sendMessage(id,`${piter[0].text}`,{
                         reply_markup:JSON.stringify({
                         inline_keyboard:[
@@ -345,14 +477,15 @@ bot.on('callback_query', async msg => {
                         ]
                         }),
                     });
+                data = null;
+                id = null;
                 break;
                 case 'Moskow':
+                    data = null;
                     await bot.sendMessage(id,`Мы подобрали для вас несколько квартир`);   
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_2.jpg'));
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_1.jpg')); 
                     await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_3.jpg')); 
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_4.jpg')); 
-                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/1/flat_5.jpg'));  
                     await bot.sendMessage(id,`${moskow[0].text}`,{
                     reply_markup:JSON.stringify({
                     inline_keyboard:[
@@ -360,66 +493,172 @@ bot.on('callback_query', async msg => {
                     ]
                 }),
                     });
+                data = null;
+                id = null;
                 break;
-        }
+                }
         data = null;
         id = null;
         break;
         case 'first_flat':
-            if (info.cities === 'Piter'){
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_1.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_2.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_3.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_4.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_5.jpg'));
-                await bot.sendMessage(id,`${piter[1].text}`,{
+            switch(info.cities){
+                case 'Kazan':
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/2/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/2/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/2/flat_3.jpg'));
+                    await bot.sendMessage(id,`${kazan[1].text}`,{
                 reply_markup:JSON.stringify({
-                    inline_keyboard:[
-                        [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
-                    ]
-                }),
-            });
-            } else {
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_1.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_2.jpg')); 
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_3.jpg')); 
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_4.jpg')); 
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_5.jpg'));  
-                await bot.sendMessage(id,`${moskow[1].text}`,{
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;
+                case 'Ekaterinburg':
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/2/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/2/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/2/flat_3.jpg'));
+                    await bot.sendMessage(id,`${ekaterinburg[1].text}`,{
                 reply_markup:JSON.stringify({
-                    inline_keyboard:[
-                        [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
-                    ]
-                }),
-            });
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;
+                case 'Novosibirsk':  
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/2/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/2/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/2/flat_3.jpg'));
+                    await bot.sendMessage(id,`${novosibirsk[1].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;    
+                case 'Piter' :
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/2/flat_3.jpg'));
+                    await bot.sendMessage(id,`${piter[1].text}`,{
+                    reply_markup:JSON.stringify({
+                        inline_keyboard:[
+                            [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                        ]
+                    }),
+                    });
+                data = null;
+                id = null;
+                break;
+                case "Moskow" :
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_2.jpg')); 
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/2/flat_3.jpg')); 
+                    await bot.sendMessage(id,`${moskow[1].text}`,{
+                    reply_markup:JSON.stringify({
+                        inline_keyboard:[
+                            [{text: 'Загрузить ещё', callback_data: 'second_flat'}],
+                        ]
+                    }),
+                    });
+                data = null;
+                id = null;    
+                break;
             }
-            
         data = null;
         id = null;
         break;
         case 'second_flat':
-           if (info.cities === 'Piter'){
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_1.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_2.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_3.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_4.jpg'));
-                await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_5.jpg'));
-           } else {
-            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_1.jpg'));
-            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_2.jpg')); 
-            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_3.jpg')); 
-            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_4.jpg')); 
-            await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_5.jpg'));  
-           }
-        await bot.sendMessage(id,`${moskow[2].text}`,{
-            reply_markup:JSON.stringify({
-                inline_keyboard:[
-                    [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
-                ]
-            }),
-        });
-        data = null;
-        id = null;
+            switch(info.cities){
+                case 'Kazan':
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/3/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/3/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Kazan/3/flat_3.jpg'));
+                    await bot.sendMessage(id,`${kazan[2].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;
+                case 'Ekaterinburg':
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/3/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/3/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Ekaterinburg/3/flat_3.jpg'));
+                    await bot.sendMessage(id,`${ekaterinburg[2].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;
+                case 'Novosibirsk':
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/3/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/3/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Novosibirsk/3/flat_3.jpg'));
+                    await bot.sendMessage(id,`${novosibirsk[2].text}`,{
+                reply_markup:JSON.stringify({
+                   inline_keyboard:[
+                       [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                   ]
+               }),
+                });
+                data = null;
+                id = null;
+                break;    
+                case 'Piter' :
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_2.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/Piter/3/flat_3.jpg'));
+                    await bot.sendMessage(id,`${piter[2].text}`,{
+                    reply_markup:JSON.stringify({
+                        inline_keyboard:[
+                            [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                        ]
+                    }),
+                    });
+                data = null;
+                id = null;
+                break;
+                case "Moskow" :
+                    data = null;
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_1.jpg'));
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_2.jpg')); 
+                    await bot.sendPhoto(id, fs.readFileSync(__dirname +'/images/examples/3/flat_3.jpg')); 
+                    await bot.sendMessage(id,`${moskow[2].text}`,{
+                    reply_markup:JSON.stringify({
+                        inline_keyboard:[
+                            [{text: 'Загрузить ещё', callback_data: 'third_flat'}],
+                        ]
+                    }),
+                    });
+                data = null;
+                id = null;    
+                break;
+            }
         break;
         case 'third_flat':
             await bot.sendMessage(id, `     🚫ВНИМАНИЕ 🚫
